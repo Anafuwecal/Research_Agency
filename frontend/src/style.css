@@ -1,0 +1,179 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Fira+Code:wght@400;500;600&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  * {
+    @apply border-gray-700/30;
+  }
+  
+  body {
+    @apply bg-primary-dark text-gray-100 font-sans antialiased m-0 p-0;
+    min-height: 100vh;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-semibold;
+  }
+}
+
+@layer components {
+  .card {
+    @apply bg-primary-light rounded-2xl shadow-2xl border border-gray-700/30 p-6 
+           backdrop-blur-sm transition-all duration-300 hover:shadow-accent-gold/5;
+  }
+  
+  .btn-primary {
+    @apply bg-gradient-to-r from-accent-gold to-yellow-500 text-primary-dark 
+           px-6 py-3 rounded-xl font-semibold shadow-lg shadow-accent-gold/20
+           hover:shadow-accent-gold/40 hover:scale-105 
+           active:scale-95 transition-all duration-200
+           disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100;
+  }
+  
+  .btn-secondary {
+    @apply bg-primary-dark border-2 border-gray-600 text-gray-100 
+           px-6 py-3 rounded-xl font-semibold 
+           hover:bg-gray-700 hover:border-accent-gold/50 
+           transition-all duration-200 active:scale-95;
+  }
+
+  .btn-ghost {
+    @apply text-gray-300 px-4 py-2 rounded-lg 
+           hover:bg-primary-dark hover:text-accent-gold
+           transition-all duration-200;
+  }
+  
+  .input-field {
+    @apply bg-primary-dark border-2 border-gray-600 rounded-xl px-4 py-3.5 
+           text-gray-100 placeholder-gray-500 
+           focus:outline-none focus:ring-2 focus:ring-accent-gold/50 
+           focus:border-accent-gold transition-all duration-200
+           disabled:opacity-50 disabled:cursor-not-allowed w-full;
+  }
+
+  .textarea-field {
+    @apply input-field min-h-[120px] resize-none;
+  }
+  
+  .badge {
+    @apply px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wide;
+  }
+
+  .badge-success {
+    @apply badge bg-accent-green/20 text-accent-green border border-accent-green/30;
+  }
+
+  .badge-warning {
+    @apply badge bg-yellow-500/20 text-yellow-400 border border-yellow-500/30;
+  }
+
+  .badge-error {
+    @apply badge bg-accent-red/20 text-accent-red border border-accent-red/30;
+  }
+
+  .badge-info {
+    @apply badge bg-accent-blue/20 text-accent-blue border border-accent-blue/30;
+  }
+
+  .progress-bar {
+    @apply h-2 bg-primary-dark rounded-full overflow-hidden;
+  }
+
+  .progress-fill {
+    @apply h-full bg-gradient-to-r from-accent-gold via-yellow-400 to-accent-gold 
+           transition-all duration-500 ease-out;
+    background-size: 200% 100%;
+    animation: shimmer 2s infinite;
+  }
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-track {
+  @apply bg-primary-dark;
+}
+
+::-webkit-scrollbar-thumb {
+  @apply bg-gray-600 rounded-full;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  @apply bg-gray-500;
+}
+
+/* Animations */
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.fade-in {
+  animation: fadeIn 0.5s ease-out;
+}
+
+/* Markdown styles */
+.markdown-content {
+  @apply text-gray-300 leading-relaxed;
+}
+
+.markdown-content h1 {
+  @apply text-3xl font-bold text-accent-gold mt-8 mb-4 pb-2 border-b border-gray-700;
+}
+
+.markdown-content h2 {
+  @apply text-2xl font-bold text-accent-gold mt-6 mb-3;
+}
+
+.markdown-content h3 {
+  @apply text-xl font-semibold text-gray-200 mt-5 mb-2;
+}
+
+.markdown-content p {
+  @apply mb-4;
+}
+
+.markdown-content ul, .markdown-content ol {
+  @apply ml-6 mb-4 space-y-2;
+}
+
+.markdown-content li {
+  @apply text-gray-300;
+}
+
+.markdown-content code {
+  @apply bg-primary-dark px-2 py-1 rounded text-accent-green font-mono text-sm;
+}
+
+.markdown-content pre {
+  @apply bg-primary-dark p-4 rounded-lg overflow-x-auto mb-4;
+}
+
+.markdown-content a {
+  @apply text-accent-blue hover:text-accent-blue/80 underline;
+}
+
+.markdown-content strong {
+  @apply text-gray-100 font-semibold;
+}
