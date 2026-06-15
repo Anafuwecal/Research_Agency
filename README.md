@@ -79,8 +79,8 @@ A comprehensive AI-powered research and report generation system built with Vue 
 ### Clone Repository
 
 ```bash
-git clone https://github.com/yourusername/INSIGHT-GRAPH.git
-cd INSIGHT-GRAPH
+git clone https://github.com/yourusername/Research_Agency.git
+cd Research_Agency
 ```
 
 ### Backend Setup
@@ -159,7 +159,7 @@ npm run preview
 
 ## Project Structure
 
-INSIGHT-GRAPH/
+Research_Agency/
 ├── backend/                     # Backend API server
 │   ├── src/
 │   │   ├── agents/             # AI agent implementations
@@ -394,8 +394,8 @@ This project is licensed under the MIT License. See `LICENSE` file for details.
 
 For issues, questions, or contributions:
 
-- **GitHub Issues** - https://github.com/yourusername/INSIGHT-GRAPH/issues
-- **Documentation** - https://github.com/yourusername/INSIGHT-GRAPH/wiki
+- **GitHub Issues** - https://github.com/yourusername/Research_Agency/issues
+- **Documentation** - https://github.com/yourusername/Research_Agency/wiki
 
 ## Acknowledgments
 
