@@ -1,9 +1,2 @@
 export { default as SearchIcon } from './SearchIcon.vue';
 export { default as BrainIcon } from './BrainIcon.vue';
-export { default as DocumentIcon } from './DocumentIcon.vue';
-export { default as ChartIcon } from './ChartIcon.vue';
-export { default as ClipboardIcon } from './ClipboardIcon.vue';
-export { default as LinkIcon } from './LinkIcon.vue';
-export { default as DatabaseIcon } from './DatabaseIcon.vue';
-export { default as LightningIcon } from './LightningIcon.vue';
-export { default as RobotIcon } from './RobotIcon.vue';

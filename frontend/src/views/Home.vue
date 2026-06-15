@@ -20,8 +20,10 @@
             :key="index"
             class="group bg-white p-8 rounded-2xl border border-slate-100 shadow-sm hover:shadow-xl transition-all duration-300 hover:border-primary/20"
           >
-            <div class="w-14 h-14 bg-primary/5 text-primary rounded-xl flex items-center justify-center mb-6 transition-colors group-hover:bg-primary group-hover:text-white">
-              <component :is="feature.icon" class="w-7 h-7" />
+            <div 
+              class="w-14 h-14 bg-primary/5 text-primary rounded-xl flex items-center justify-center mb-6 transition-colors group-hover:bg-primary group-hover:text-white"
+              v-html="feature.icon"
+            >
             </div>
             <h3 class="text-xl font-bold text-slate-900 mb-3">{{ feature.title }}</h3>
             <p class="text-slate-500 leading-relaxed">{{ feature.description }}</p>
@@ -60,21 +62,17 @@
 </template>
 
 <script setup lang="ts">
-import { ref, shallowRef } from 'vue';
+import { ref } from 'vue'; 
 import { useAuthStore } from '@/stores/auth.store';
 import LoginForm from '@/components/auth/LoginForm.vue';
 import SignupForm from '@/components/auth/SignupForm.vue';
 
-// Importing icons directly as components for cleaner markup
-const DocumentIcon = shallowRef({
-  template: '<svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/></svg>'
-});
-const BrainIcon = shallowRef({
-  template: '<svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/></svg>'
-});
-const DownloadIcon = shallowRef({
-  template: '<svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>'
-});
+// Define as standard strings with the "w-7 h-7" classes baked in
+const DocumentIcon = '<svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/></svg>';
+
+const BrainIcon = '<svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/></svg>';
+
+const DownloadIcon = '<svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>';
 
 const features = [
   { title: 'Define Parameters', description: 'Input your topic and configure depth, type, and source requirements for precision results.', icon: DocumentIcon },
