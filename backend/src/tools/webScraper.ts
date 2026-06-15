@@ -3,7 +3,7 @@ import { z } from "zod";
 import axios from "axios";
 import * as cheerio from "cheerio";
 
-export const webScraperTool = tool(
+export const webScraperTool = new tool(
   async ({ url }: { url: string }) => {
     console.log(`Scraping: ${url}`);
     

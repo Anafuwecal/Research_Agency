@@ -426,10 +426,10 @@ Output the Mermaid code directly.`),
       const barChartUrl = this.createQuickChartUrl({
         type: 'bar',
         data: {
-          labels: chartData.map(d => d.label),
+          labels: chartData.map(d => d?.label),
           datasets: [{
             label: 'Key Metrics',
-            data: chartData.map(d => d.value),
+            data: chartData.map(d => d?.value),
             backgroundColor: [
               'rgba(75, 85, 99, 0.8)',
               'rgba(107, 114, 128, 0.8)', 
@@ -524,7 +524,7 @@ Output the Mermaid code directly.`),
       // Add related concepts as sub-nodes if available
       if (concept.relatedConcepts && concept.relatedConcepts.length > 0) {
         const related = concept.relatedConcepts.slice(0, 2);
-        related.forEach((rel, j) => {
+        related.forEach((rel: any, j: number) => {
           const relId = `${nodeId}_${j}`;
           const relLabel = this.sanitizeForMermaid(rel);
           mermaidCode += `    ${nodeId} -.-> ${relId}["${relLabel}"]\n`;
