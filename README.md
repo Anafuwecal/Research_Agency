@@ -1,4 +1,4 @@
-# Research Report Agent
+# Research Agency
 
 A comprehensive AI-powered research and report generation system built with Vue 3, TypeScript, LangChain, and LangGraph. This enterprise-grade application automates the research process through intelligent agent orchestration, combining natural language processing, web search capabilities, and advanced synthesis techniques to produce professional research reports.
 
@@ -79,8 +79,8 @@ A comprehensive AI-powered research and report generation system built with Vue 
 ### Clone Repository
 
 ```bash
-git clone https://github.com/yourusername/research-report-agent.git
-cd research-report-agent
+git clone https://github.com/yourusername/INSIGHT-GRAPH.git
+cd INSIGHT-GRAPH
 ```
 
 ### Backend Setup
@@ -159,7 +159,7 @@ npm run preview
 
 ## Project Structure
 
-ResearchReportAgent/
+INSIGHT-GRAPH/
 ├── backend/                     # Backend API server
 │   ├── src/
 │   │   ├── agents/             # AI agent implementations
@@ -394,8 +394,8 @@ This project is licensed under the MIT License. See `LICENSE` file for details.
 
 For issues, questions, or contributions:
 
-- **GitHub Issues** - https://github.com/yourusername/research-report-agent/issues
-- **Documentation** - https://github.com/yourusername/research-report-agent/wiki
+- **GitHub Issues** - https://github.com/yourusername/INSIGHT-GRAPH/issues
+- **Documentation** - https://github.com/yourusername/INSIGHT-GRAPH/wiki
 
 ## Acknowledgments
 

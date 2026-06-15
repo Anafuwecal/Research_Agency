@@ -47,7 +47,6 @@ const showUserMenu = ref(false);
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
                     d="M13 10V3L4 14h7v7l9-11h-7z" />
             </svg>
-            <span class="text-sm font-semibold text-gray-300">Powered by LangGraph</span>
           </div>
 
           <!-- User Menu -->

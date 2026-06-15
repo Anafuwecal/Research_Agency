@@ -1,4 +1,4 @@
-# Research Report Agent - Backend
+# INSIGHT-GRAPH - Backend
 
 Express.js backend API server implementing multi-agent research orchestration with LangChain and LangGraph.
 

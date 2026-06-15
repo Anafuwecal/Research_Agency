@@ -88,3 +88,14 @@ export interface HistoryItem {
   createdAt: Date;
   completedAt?: Date;
 }
+
+export interface ResearchHistory {
+  id: string;
+  userId: string;
+  query: ResearchQuery;
+  status: 'pending' | 'researching' | 'extracting' | 'summarizing' | 'generating' | 'completed' | 'failed';
+  createdAt: Date | number;
+  updatedAt?: Date | number;
+  completedAt?: Date;
+  reportUrl?: string;
+}

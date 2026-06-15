@@ -118,15 +118,27 @@ export class FirebaseService {
     });
   }
 
-  async getUserHistory(userId: string, limit: number = 50): Promise<ResearchHistory[]> {
+  async getUserHistory(userId: string, limitCount: number = 50): Promise<any[]> {
+    // 1. Point to the correct collection where createSession saves the data
     const snapshot = await db
-      .collection('history')
+      .collection('sessions') 
       .where('userId', '==', userId)
       .orderBy('createdAt', 'desc')
-      .limit(limit)
+      .limit(limitCount)
       .get();
 
-    return snapshot.docs.map(doc => doc.data() as ResearchHistory);
+    return snapshot.docs.map(doc => {
+      const data = doc.data();
+      return {
+        // 2. Explicitly attach the Firestore Document ID
+        id: doc.id, 
+        ...data,
+        // 3. Safely convert Firestore Timestamps to ISO strings for Express serialization
+        createdAt: data.createdAt?.toDate?.().toISOString() || new Date().toISOString(),
+        updatedAt: data.updatedAt?.toDate?.().toISOString() || null,
+        completedAt: data.completedAt?.toDate?.().toISOString() || null,
+      };
+    });
   }
 
   async deleteHistory(historyId: string, userId: string): Promise<void> {

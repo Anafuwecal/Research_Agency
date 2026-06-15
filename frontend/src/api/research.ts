@@ -22,7 +22,7 @@ export async function getResearchStatus(id: string): Promise<ResearchState> {
 export async function getResearchHistory(): Promise<ResearchHistory[]> {
   try {
     const response = await apiClient.get('/research/history');
-    return response.data;
+    return response.data.data || response.data; // Handle both { success, data: [] } and direct array responses
   } catch (error: any) {
     console.error('Failed to get research history:', error);
     throw error; // Throw instead of returning empty array to handle auth errors properly

@@ -1,5 +1,5 @@
 
-# Research Report Agent - Frontend
+# INSIGHT-GRAPH - Frontend
 
 Vue 3 frontend application providing user interface for AI-powered research and report generation.
 
