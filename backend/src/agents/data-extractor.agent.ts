@@ -80,7 +80,7 @@ Adapt your extraction priorities based on the research type:
 ## Extraction Standards by Dimension
 
 ### Key Findings
-- Must be a discrete, self-contained insight (not a vague topic reference)
+- Must be a discrete, self-contained insight (not a vague topic reference), and should not bit around the bush. Avoid filler phrases like "research shows" or "studies indicate" unless they are part of a specific finding.
 - BAD: "AI is important in healthcare"
 - GOOD: "AI-driven diagnostic tools reduced misdiagnosis rates by 32% in radiology departments across 14 US hospitals between 2021-2023"
 - Importance score reflects direct relevance to the research topic (0.0 = tangential, 1.0 = directly answers the core question)

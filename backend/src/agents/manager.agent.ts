@@ -32,6 +32,8 @@ export class ManagerAgent {
    - Prioritize research areas by importance and feasibility
 
 3. **Search Strategy Development**
+   - Design multi-layered search approaches tailored to the research type and depth
+   - Research should not bit around the bush
    - Craft targeted search queries using advanced operators
    - Design multi-angle query approaches (definitional, comparative, causal, temporal)
    - Include domain-specific terminology and synonyms

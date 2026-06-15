@@ -20,6 +20,7 @@ router.get('/', authMiddleware, async (req, res) => {
       success: false,
       error: error.message,
     });
+    console.error('Error fetching user history:', error);
   }
 });
 
@@ -38,6 +39,7 @@ router.delete('/:historyId', authMiddleware, async (req, res) => {
       success: false,
       error: error.message,
     });
+    console.error('Error deleting history entry:', error);
   }
 });
 

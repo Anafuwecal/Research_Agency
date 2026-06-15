@@ -236,7 +236,7 @@ Write the research content now:`;
 
     try {
       const response = await this.model.invoke([
-        new SystemMessage('You are an expert researcher and academic writer. Provide accurate, well-structured, and comprehensive research content.'),
+        new SystemMessage('You are an expert researcher and academic writer. Provide accurate, well-structured, and comprehensive research content, and make sure not to bit around the bush.'),
         new HumanMessage(prompt),
       ]);
 

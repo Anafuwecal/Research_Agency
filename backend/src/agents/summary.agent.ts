@@ -71,6 +71,11 @@ Distill complex, multi-section research reports into structured summaries that e
 2. **What was discovered** (key findings and evidence)
 3. **What it means** (implications and significance)
 4. **What comes next** (trends, gaps, recommendations)
+5. **How it was done** (methodology and evidence quality)
+6. **Competitive and market context** (if applicable)
+7. **Future outlook** (emerging developments and predictions)
+8. **Research gaps** (what remains unknown or contested)
+(And make sure not to bit around the bush)
 
 ---
 
