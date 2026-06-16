@@ -376,7 +376,7 @@ async function runResearch(id: string, topic: string, userId: string, agents: st
 
       // FIX: Instantiate the class and call its method
       const researcher = new ResearchAgent();
-      state = await researcher.invoke(state); 
+      state = await researcher.conductResearch(state); 
       
       await updateSession(id, { searchResults: state.searchResults });
       await delay(500);
@@ -396,7 +396,7 @@ async function runResearch(id: string, topic: string, userId: string, agents: st
 
       // FIX: Instantiate the class
       const extractor = new DataExtractorAgent();
-      state = await extractor.invoke(state); // <-- Update method name if needed
+      state = await extractor.extractData(state);
       
       await updateSession(id, { extractedData: state.extractedData });
       await delay(500);
@@ -416,7 +416,7 @@ async function runResearch(id: string, topic: string, userId: string, agents: st
 
       // FIX: Instantiate the class
       const summarizer = new SummaryAgent();
-      state = await summarizer.invoke(state); // <-- Update method name if needed
+      state = await summarizer.generateSummary(state); // <-- Update method name if needed
       
       await updateSession(id, { summary: state.summary });
       await delay(500);
@@ -436,7 +436,7 @@ async function runResearch(id: string, topic: string, userId: string, agents: st
 
       // FIX: Instantiate the class
       const reporter = new ReportAgent();
-      state = await reporter.invoke(state); // <-- Update method name if needed
+      state = await reporter.generateReport(state); // <-- Update method name if needed
       
       await updateSession(id, { report: state.report });
     }
