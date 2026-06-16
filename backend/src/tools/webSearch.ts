@@ -2,7 +2,7 @@ import { tool } from "@langchain/core/tools";
 import { z } from "zod";
 import axios from "axios";
 
-export const webSearchTool = tool(
+export const webSearchTool: any = tool(
   async ({ query }: { query: string }) => {
     console.log(`Searching web for: ${query}`);
     

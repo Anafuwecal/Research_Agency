@@ -6,12 +6,12 @@ import { DataExtractorAgent } from '../agents/data-extractor.agent.js';
 import { SummaryAgent } from '../agents/summary.agent.js';
 import { ReportAgent } from '../agents/report.agent.js';
 import { db, isFirebaseEnabled } from '../config/firebase.js';
-import type { ResearchQuery } from '../types/index.js';
+import type { ResearchState, ResearchRequest, ProgressUpdate } from '../types/index.js';
 
 const router = express.Router();
 
 // In-memory storage for sessions when Firebase is not available
-const researchSessions = new Map<string, ResearchQuery>();
+const researchSessions = new Map<string, ResearchState>();
 
 // In-memory SSE clients
 const sseClients = new Map<string, Response>();
@@ -21,14 +21,14 @@ function generateId(): string {
   return `research_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
 }
 
-function sendProgress(id: string, update: Partial<ResearchQuery>) {
+function sendProgress(id: string, update: ProgressUpdate) {
   const client = sseClients.get(id);
   if (client) {
     client.write(`data: ${JSON.stringify(update)}\n\n`);
   }
 }
 
-async function saveSession(id: string, data: ResearchQuery): Promise<void> {
+async function saveSession(id: string, data: ResearchState): Promise<void> {
   if (isFirebaseEnabled) {
     try {
       await db.collection('research').doc(id).set(data);
@@ -41,12 +41,12 @@ async function saveSession(id: string, data: ResearchQuery): Promise<void> {
   }
 }
 
-async function getSession(id: string): Promise<ResearchQuery | null> {
+async function getSession(id: string): Promise<ResearchState | null> {
   if (isFirebaseEnabled) {
     try {
       const doc = await db.collection('research').doc(id).get();
       if (doc.exists) {
-        return doc.data() as ResearchQuery;
+        return doc.data() as ResearchState;
       }
     } catch (error) {
       console.error('Firestore get error:', error);
@@ -56,7 +56,7 @@ async function getSession(id: string): Promise<ResearchQuery | null> {
   return researchSessions.get(id) || null;
 }
 
-async function updateSession(id: string, updates: Partial<ResearchQuery>): Promise<void> {
+async function updateSession(id: string, updates: Partial<ResearchState>): Promise<void> {
   if (isFirebaseEnabled) {
     try {
       await db.collection('research').doc(id).update(updates);
@@ -148,7 +148,7 @@ router.get('/history', authenticate, async (req: AuthRequest, res: Response) => 
 // POST /api/research - Start new research
 router.post('/', authenticate, async (req: AuthRequest, res: Response) => {
   try {
-    const { topic, agents = ['planner', 'researcher', 'extractor', 'summarizer', 'reporter'] } = req.body as ResearchQuery;
+    const { topic, agents = ['planner', 'researcher', 'extractor', 'summarizer', 'reporter'] } = req.body as ResearchRequest;
     const userId = req.userId!;
 
     if (!topic || topic.trim() === '') {
@@ -160,7 +160,7 @@ router.post('/', authenticate, async (req: AuthRequest, res: Response) => {
     }
 
     const id = generateId();
-    const sessionData: ResearchQuery = {
+    const sessionData: ResearchState = {
       id,
       topic: topic.trim(),
       status: 'planning',
@@ -241,9 +241,10 @@ router.get('/:id/stream', async (req: express.Request, res: Response) => {
       return res.status(401).json({ error: 'Authentication token required' });
     }
 
-    // Verify token
+    // Verify token (you need to implement this in your auth middleware)
     let userId: string;
     try {
+      // Assuming you have a verifyTokenFromString function in auth.js
       userId = await verifyTokenFromString(token);
     } catch (error) {
       console.error('Token verification failed:', error);
@@ -349,12 +350,14 @@ async function runResearch(id: string, topic: string, userId: string, agents: st
       currentStepNum++;
       const progress = Math.floor((currentStepNum / totalSteps) * 100);
       
-      sendProgress(id, { status: 'planning', currentStep: 'Creating research plan...', progress });
+      sendProgress(id, {
+        status: 'planning',
+        currentStep: 'Creating research plan...',
+        progress
+      });
       await updateSession(id, { status: 'planning', currentStep: 'Creating research plan...', progress });
 
-      // Assuming plannerAgent is a function based on how it was imported
-      const planResult = await plannerAgent(state);
-      state = { ...state, ...planResult };
+      state = await plannerAgent(state);
       await updateSession(id, { plan: state.plan });
       await delay(500);
     }
@@ -364,12 +367,14 @@ async function runResearch(id: string, topic: string, userId: string, agents: st
       currentStepNum++;
       const progress = Math.floor((currentStepNum / totalSteps) * 100);
       
-      sendProgress(id, { status: 'researching', currentStep: 'Searching web sources...', progress });
+      sendProgress(id, {
+        status: 'researching',
+        currentStep: 'Searching web sources...',
+        progress
+      });
       await updateSession(id, { status: 'researching', currentStep: 'Searching web sources...', progress });
 
-      const researcher = new ResearchAgent();
-      const researchResult = await researcher.execute(state); // Change .execute() if your class method is named differently
-      state = { ...state, ...researchResult };
+      state = await ResearchAgent(state);
       await updateSession(id, { searchResults: state.searchResults });
       await delay(500);
     }
@@ -379,12 +384,14 @@ async function runResearch(id: string, topic: string, userId: string, agents: st
       currentStepNum++;
       const progress = Math.floor((currentStepNum / totalSteps) * 100);
       
-      sendProgress(id, { status: 'extracting', currentStep: 'Extracting key insights...', progress });
+      sendProgress(id, {
+        status: 'extracting',
+        currentStep: 'Extracting key insights...',
+        progress
+      });
       await updateSession(id, { status: 'extracting', currentStep: 'Extracting key insights...', progress });
 
-      const extractor = new DataExtractorAgent();
-      const extractResult = await extractor.execute(state); // Change .execute() if your class method is named differently
-      state = { ...state, ...extractResult };
+      state = await extractorAgent(state);
       await updateSession(id, { extractedData: state.extractedData });
       await delay(500);
     }
@@ -394,12 +401,14 @@ async function runResearch(id: string, topic: string, userId: string, agents: st
       currentStepNum++;
       const progress = Math.floor((currentStepNum / totalSteps) * 100);
       
-      sendProgress(id, { status: 'summarizing', currentStep: 'Synthesizing findings...', progress });
+      sendProgress(id, {
+        status: 'summarizing',
+        currentStep: 'Synthesizing findings...',
+        progress
+      });
       await updateSession(id, { status: 'summarizing', currentStep: 'Synthesizing findings...', progress });
 
-      const summarizer = new SummaryAgent();
-      const summaryResult = await summarizer.execute(state); // Change .execute() if your class method is named differently
-      state = { ...state, ...summaryResult };
+      state = await summarizerAgent(state);
       await updateSession(id, { summary: state.summary });
       await delay(500);
     }
@@ -409,12 +418,14 @@ async function runResearch(id: string, topic: string, userId: string, agents: st
       currentStepNum++;
       const progress = Math.floor((currentStepNum / totalSteps) * 100);
       
-      sendProgress(id, { status: 'generating', currentStep: 'Generating final report...', progress });
+      sendProgress(id, {
+        status: 'generating',
+        currentStep: 'Generating final report...',
+        progress
+      });
       await updateSession(id, { status: 'generating', currentStep: 'Generating final report...', progress });
 
-      const reporter = new ReportAgent();
-      const reportResult = await reporter.generateReport(state);
-      state = { ...state, ...reportResult };
+      state = await reportGeneratorAgent(state);
       await updateSession(id, { report: state.report });
     }
 
@@ -449,6 +460,6 @@ async function runResearch(id: string, topic: string, userId: string, agents: st
       progress: 0
     });
   }
-} 
+}
 
 export default router;

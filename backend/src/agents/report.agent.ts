@@ -444,7 +444,9 @@ Write the discussion:`;
           : new Date().getFullYear().toString(),
         url: data.url || '#',
         accessDate: new Date().toISOString().split('T')[0],
-        type: this.determineSourceType(data.url || ''),
+        
+        // UPDATE THIS LINE: Force TypeScript to accept the specific literal type
+        type: this.determineSourceType(data.url || '') as "article" | "book" | "website" | "journal" | "other",
       }))
       .sort((a, b) => a.authors[0].localeCompare(b.authors[0]));
   }
