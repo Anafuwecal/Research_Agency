@@ -374,7 +374,10 @@ async function runResearch(id: string, topic: string, userId: string, agents: st
       });
       await updateSession(id, { status: 'researching', currentStep: 'Searching web sources...', progress });
 
-      state = await ResearchAgent(state);
+      // FIX: Instantiate the class and call its method
+      const researcher = new ResearchAgent();
+      state = await researcher.invoke(state); 
+      
       await updateSession(id, { searchResults: state.searchResults });
       await delay(500);
     }
@@ -391,7 +394,10 @@ async function runResearch(id: string, topic: string, userId: string, agents: st
       });
       await updateSession(id, { status: 'extracting', currentStep: 'Extracting key insights...', progress });
 
-      state = await extractorAgent(state);
+      // FIX: Instantiate the class
+      const extractor = new DataExtractorAgent();
+      state = await extractor.invoke(state); // <-- Update method name if needed
+      
       await updateSession(id, { extractedData: state.extractedData });
       await delay(500);
     }
@@ -408,7 +414,10 @@ async function runResearch(id: string, topic: string, userId: string, agents: st
       });
       await updateSession(id, { status: 'summarizing', currentStep: 'Synthesizing findings...', progress });
 
-      state = await summarizerAgent(state);
+      // FIX: Instantiate the class
+      const summarizer = new SummaryAgent();
+      state = await summarizer.invoke(state); // <-- Update method name if needed
+      
       await updateSession(id, { summary: state.summary });
       await delay(500);
     }
@@ -425,10 +434,12 @@ async function runResearch(id: string, topic: string, userId: string, agents: st
       });
       await updateSession(id, { status: 'generating', currentStep: 'Generating final report...', progress });
 
-      state = await reportGeneratorAgent(state);
+      // FIX: Instantiate the class
+      const reporter = new ReportAgent();
+      state = await reporter.invoke(state); // <-- Update method name if needed
+      
       await updateSession(id, { report: state.report });
     }
-
     // Complete
     await updateSession(id, {
       status: 'completed',
